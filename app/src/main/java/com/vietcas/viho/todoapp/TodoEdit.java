@@ -7,11 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class TodoEdit extends AppCompatActivity {
     private EditText etEditText;
     private boolean isItemEdit = false;
+    private Button btnEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,13 @@ public class TodoEdit extends AppCompatActivity {
         etEditText = (EditText) findViewById(R.id.etEditText);
         etEditText.setText(todoItem);
         etEditText.setSelection(todoItem.length());
+        btnEdit = (Button) findViewById(R.id.btnEdit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editToDoItem();
+            }
+        });
         watchEditTextChange();
     }
     private void watchEditTextChange() {
@@ -43,8 +52,8 @@ public class TodoEdit extends AppCompatActivity {
         });
     }
 
-    public void editToDoItem(View view) {
-        if(isItemEdit) {
+    public void editToDoItem() {
+        if(isItemEdit && etEditText.getText().length() > 0) {
             Intent data = new Intent();
             data.putExtra("todoItem", etEditText.getText().toString());
             setResult(RESULT_OK, data);

@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:text="@string/add_btn"
         android:id="@+id/btnAdd"
-        android:onClick="addTodoItem"
         android:layout_alignBottom="@+id/etEditText"
         android:layout_alignRight="@+id/lvItems"
         android:layout_alignEnd="@+id/lvItems" />
