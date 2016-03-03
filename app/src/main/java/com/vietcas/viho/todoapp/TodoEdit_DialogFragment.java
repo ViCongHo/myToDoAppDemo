@@ -37,9 +37,9 @@ public class TodoEdit_DialogFragment extends DialogFragment {
     public void  onViewCreated(View view, @Nullable Bundle saveInstanceState) {
         super.onViewCreated(view, saveInstanceState);
         etEditText = (EditText) view.findViewById(R.id._etEditText);
-        String title = getArguments().getString("title", "edit_todo_title");
+        //String title = getArguments().getString("title", "edit_todo_title");
         String task = getArguments().getString("task");
-        getDialog().setTitle(title);
+        //getDialog().setTitle(title);
         etEditText.setText(task);
         etEditText.requestFocus();
         cancelBtn = (Button) view.findViewById(R.id.btn_cancel);

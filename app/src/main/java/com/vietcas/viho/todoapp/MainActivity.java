@@ -2,7 +2,6 @@ package com.vietcas.viho.todoapp;
 
 
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -58,9 +57,10 @@ public class MainActivity extends AppCompatActivity implements TodoEdit_DialogFr
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                long _id = todoList.get(position).getID();
-                myDB.deleteTodo(_id);
+                //Log.d("POS", " " + position);
+                int _id = todoList.get(position).getID();
                 todoList.remove(position);
+                myDB.deleteTodo(_id);
                 toDoListAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements TodoEdit_DialogFr
 
    /* public void writeItem() {
         File fileDir = getFilesDir();
-        File todoFile = new File(fileDir, "todo.txt");
+        File todoFile = new File(fileDir, "");
         try {
             FileUtils.writeLines(todoFile, todoList);
         } catch (IOException e) {
@@ -115,22 +115,13 @@ public class MainActivity extends AppCompatActivity implements TodoEdit_DialogFr
         if (item.length() > 0) {
             todoList.add(new TodoItem(item));
             myDB.insertData(item);
-            toDoListAdapter.notifyDataSetChanged();
+            pupulateArrayItems();
+            //readItems();
+            //toDoListAdapter.notifyDataSetChanged();
             //writeItem();
             etEditText.setText("");
         } else {
             Toast.makeText(MainActivity.this, "Please enter your task!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            String todoItem = data.getExtras().getString("todoItem");
-            //todoList.set(pos, todoItem);
-            toDoListAdapter.notifyDataSetChanged();
-            Toast.makeText(this, "Item has changed", Toast.LENGTH_SHORT).show();
-            //writeItem();
         }
     }
 
@@ -140,6 +131,6 @@ public class MainActivity extends AppCompatActivity implements TodoEdit_DialogFr
         TodoItem changeTask = new TodoItem(id, inputText);
         todoList.set(pos, changeTask);
         myDB.updateTodo(changeTask);
-        toDoListAdapter.notifyDataSetChanged();
+        //toDoListAdapter.notifyDataSetChanged();
     }
 }

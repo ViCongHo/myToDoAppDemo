@@ -55,26 +55,12 @@ public class ToDoDataBaseHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
-    public void insertData(String task) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
-        try {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(TODO_TASK, task);
-            db.insert(TABLE_TODO, null, contentValues);
-            db.setTransactionSuccessful();
-            Log.d("TAG", "Successful");
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to insert data");
-        } finally {
-            db.endTransaction();
-        }
-    }
+   //get all ToDo records from database
     public List<TodoItem> getTodoList() {
         List<TodoItem> todoItems = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         //SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_TODO, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TODO, null);
         try {
             if(cursor.moveToFirst()) {
                 do {
@@ -94,11 +80,27 @@ public class ToDoDataBaseHelper extends SQLiteOpenHelper {
         }
         return todoItems;
     }
-    public void deleteTodo(long id) {
+    public void insertData(String task) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
-            db.delete(TABLE_TODO, TODO_ID + " =?", new String[]{Integer.toString((int) id)});
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TODO_TASK, task);
+            db.insert(TABLE_TODO, null, contentValues);
+            db.setTransactionSuccessful();
+            Log.d("TAG", "Insert Successful");
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to insert data");
+        } finally {
+            db.endTransaction();
+        }
+    }
+    public void deleteTodo(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        Log.d("DELETE ID", "ID: " + id);
+        try {
+            db.delete(TABLE_TODO, TODO_ID + " =?", new String[]{Integer.toString(id)});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("DELETE","Cannot delete");
