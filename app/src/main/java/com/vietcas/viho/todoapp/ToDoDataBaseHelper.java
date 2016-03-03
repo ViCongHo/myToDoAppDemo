@@ -96,10 +96,14 @@ public class ToDoDataBaseHelper extends SQLiteOpenHelper {
     }
     public void deleteTodo(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
         try {
             db.delete(TABLE_TODO, TODO_ID + " =?", new String[]{Integer.toString((int) id)});
+            db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("DELETE","Cannot delete");
+        } finally {
+            db.endTransaction();
         }
     }
     public int updateTodo(TodoItem item) {
